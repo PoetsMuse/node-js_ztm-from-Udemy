@@ -11,6 +11,13 @@ function delay(duration){
 }
 
 app.get('/', (req, res) => {
+
+  //slow / blocking functions / influencing performance  
+
+    // JSON.stringify({}) => "{}"
+    // JSON.parse("{}") => {}
+    //[5, 9, 7, 6, 8].sort()
+    //key derivation functions crypto...
     res.send('Performance example');
 });
 
