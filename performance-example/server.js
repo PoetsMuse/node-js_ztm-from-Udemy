@@ -1,6 +1,4 @@
 const express = require('express');
-const cluster = require('cluster');
-const os = require('os');
 
 const app = express();
 
@@ -12,13 +10,6 @@ function delay(duration){
 }
 
 app.get('/', (req, res) => {
-
-  //slow / blocking functions / influencing performance  
-
-    // JSON.stringify({}) => "{}"
-    // JSON.parse("{}") => {}
-    //[5, 9, 7, 6, 8].sort()
-    //key derivation functions crypto...
     res.send(`Performance example: ${process.pid}`);
 });
 
@@ -28,17 +19,7 @@ app.get('/timer', (req, res) => {
     res.send(`Ring! Ring! Ring! ${process.pid}`);
 });
 
-//for master and forks the same file and code is run: server.js
-//console.log('Running server.js...');
-if (cluster.isMaster){
-    console.log('Master has been started...');
-    const NUM_WORKERS = os.cpus().length;
-    for (let i = 0; i < NUM_WORKERS; i++){
-        cluster.fork();
-    }
-} else {
-    console.log('Worker process started...');
-    app.listen(3000);
-}
+console.log('Worker process started...');
+app.listen(3000);
 
 
